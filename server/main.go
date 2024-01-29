@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net"
 
@@ -27,4 +28,8 @@ func main() {
 		log.Fatalf("failed to serve: %v", err)
 	}
 
+}
+
+func (s *server) Hello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloResponse, error) {
+	return &pb.HelloResponse{Message: "Hello " + in.Name}, nil
 }
