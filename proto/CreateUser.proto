@@ -22,8 +22,22 @@ message CreateResponse {
     
 }
 
+message UpdateRequest {
+    string id = 1;
+    string name = 2;
+    
+}
+
+message UpdateResponse {
+   
+    string message = 1;
+    
+}
+
+
 
 service UserService {
     rpc Create(CreateRequest) returns (CreateResponse);
+    rpc Update(UpdateRequest) returns (UpdateResponse);
     
 }

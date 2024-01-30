@@ -68,7 +68,21 @@ func main() {
 
 		id := c.Param("id")
 
-		request := &pb.UpdateRequest{Id: id}
+		var f pb.UpdateRequest
+
+		if err := c.BindJSON(&f); err != nil {
+			c.JSON(500, gin.H{"error": err.Error()})
+		}
+
+		request := &pb.UpdateRequest{Id: id, Name: f.Name}
+
+		response, err := client2.Update(c, request)
+
+		if err != nil {
+			c.JSON(500, gin.H{"error": err.Error()})
+		}
+
+		c.JSON(200, gin.H{"message": response.Message})
 
 	})
 

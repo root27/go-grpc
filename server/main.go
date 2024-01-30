@@ -56,3 +56,27 @@ func (s *server) Create(ctx context.Context, in *pb.CreateRequest) (*pb.CreateRe
 
 	return &pb.CreateResponse{Id: res.InsertedID.(primitive.ObjectID).Hex(), Name: in.Name, Email: in.Email}, nil
 }
+
+func (s *server) Update(ctx context.Context, in *pb.UpdateRequest) (*pb.UpdateResponse, error) {
+	db, err := database.Connect()
+
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	id, _ := primitive.ObjectIDFromHex(in.Id)
+
+	filter := bson.M{"_id": id}
+
+	update := bson.M{"$set": bson.M{"name": in.Name}}
+
+	_, err = db.UpdateOne(context.Background(), filter, update)
+
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	return &pb.UpdateResponse{Message: "Updated"}, nil
+}
