@@ -4,7 +4,7 @@ syntax = "proto3";
 package pb;
 
 
-option go_package = "github.com/root27/pb";
+option go_package = "github.com/root27/go-grpc/pb";
 
 
 
