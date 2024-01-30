@@ -21,6 +21,8 @@ func main() {
 
 	client := pb.NewHelloServiceClient(conn)
 
+	client2 := pb.NewUserServiceClient(conn)
+
 	r := gin.Default()
 
 	r.GET("/api/hello/:name", func(c *gin.Context) {
@@ -35,6 +37,24 @@ func main() {
 		}
 
 		c.JSON(200, gin.H{"message": response.Message})
+
+	})
+
+	r.POST("/api/user", func(c *gin.Context) {
+
+		var f pb.CreateRequest
+
+		if err := c.BindJSON(&f); err != nil {
+			c.JSON(500, gin.H{"error": err.Error()})
+		}
+
+		response, err := client2.Create(c, &f)
+
+		if err != nil {
+			c.JSON(500, gin.H{"error": err.Error()})
+		}
+
+		c.JSON(200, gin.H{"id": response.Id, "name": response.Name, "email": response.Email})
 
 	})
 
