@@ -25,6 +25,8 @@ func main() {
 
 	r := gin.Default()
 
+	// TEST
+
 	r.GET("/api/hello/:name", func(c *gin.Context) {
 		name := c.Param("name")
 
@@ -39,6 +41,8 @@ func main() {
 		c.JSON(200, gin.H{"message": response.Message})
 
 	})
+
+	// CREATE
 
 	r.POST("/api/user", func(c *gin.Context) {
 
@@ -55,6 +59,16 @@ func main() {
 		}
 
 		c.JSON(200, gin.H{"id": response.Id, "name": response.Name, "email": response.Email})
+
+	})
+
+	// UPDATE
+
+	r.POST("/api/user/:id", func(c *gin.Context) {
+
+		id := c.Param("id")
+
+		request := &pb.UpdateRequest{Id: id}
 
 	})
 
